@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./style.css">
+    <title>Document</title>
+<!--    <script type="text/javascript" src="index.js"></script>-->
+    <script type="text/javascript">
+
+
+      
+                    
+// function init () {
+//     const xhttp = new XMLHttpRequest();
+//     xhttp.onreadystatechange = function(){
+//           if (this.readyState == 4 && this.status == 200){
+                  
+//                       const paraContent = this.responseXML.getElementsByTagName("para")
+//                   for (let some of paraContent){
+//                   console.log(some.innerHTML)
+//                 //   document.getElementById("demo").textContent = this.responseXML;
+//                   document.write(some.innerHTML)
+               
+//                           }
+                        
+                       
+                       
+//                     //  document.getElementById("demo").innerHTML = some.innerHTML
+//                     //  document.write(some.innerHTML)
+//              }
+//     }
+//              xhttp.open("GET", "./book_ukr.xml", true);
+//              xhttp.send();
+//     }
+
+//               window.onload = init;
+        let pageWidth = 250;
+            let pageHeight = 150;
+            let pagePaddingLeft = 10;
+            let pagePaddingRight = 10;
+            let approxWordsPerPage = 500;
+            let lineHeight = 18;
+            let maxLinesPerPage = parseInt(pageHeight / lineHeight) - 1;
+            let x = pagePaddingLeft;
+            let y = lineHeight;
+            let maxWidth = pageWidth - pagePaddingLeft - pagePaddingRight;
+
+
+
+        fetch('/book_ukr.xml')
+            .then(book => {
+                book.text()
+                    .then(text => {
+                    const parser = new DOMParser();
+        
+                     const doc = parser.parseFromString(text, 'text/xml');
+                    if (doc.getElementsByTagName('article').length > 0) {
+                        const article = doc.getElementsByTagName('article')[0];
+
+                         let para = article.getElementsByTagName("para");
+                        let sections = Array.prototype.slice.call(para);
+                        
+                    //   function getWordCount() {
+                    //         let map = [];
+                    //         for (let i = 0; i < sections.length; i++) {
+                    //             let item = sections[i];
+                    //             map[item] = (map[item] + 1) || 1;
+                    //             // console.log(item)
+                    //             console.log(map[item]) 
+                    //         }
+                            
+                            
+                    //     }
+                    //     getWordCount(sections);
+//                        for(some of Object.entries(sections)){
+// // console.log(some[1].textContent)
+// let pages = some[1]
+// for(let page of pages){
+//     console.log(page.textContent)
+// }
+
+                     //  }
+                     
+                    //     for (const[key, value] of Object.entries(sections)) {
+                    //         // console.log(`${key}: ${value.textContent}`);
+                    //     }
+                    // const chunkSize = 1;
+                    //     const arr = sections;
+                    //     const groups = arr.map((e, i) => {
+                    //         return i % chunkSize === 0 ? arr.slice(i, i + chunkSize) : null;
+                    //     }).filter(e => { return e; });
+                    //   let group
+                
+                    //     for( group of Object.values(groups)){
+                    //     for(let g of group){
+                    //         console.log(g.textContent)
+                    //           let filteredParagraphs = g.map((item) => {
+                    //             return `<p>${item.textContent}</p>`;
+                    //         });
+                    //         document.getElementById("demo").innerHTML = filteredParagraphs.join('')
+                    //     }
+                    //    }
+
+
+//                         for(let section of sections){
+// console.log(Object.hasOwnProperty(section.textContent))
+                          
+//                         }
+                        
+                         let filteredParagraphs = sections.map((item) => {
+                          
+                            return `<p>${item.textContent}</p>`;
+
+                           
+                        });
+                       
+                    
+                        document.getElementById("demo").innerHTML = filteredParagraphs.join('')
+                    
+                 
+            }});
+        
+            });
+   function variableResize() {
+
+        // get the computed styles into an object
+        let bodyStyles = window.getComputedStyle(document.body);
+        // set up a place to save new values back 
+        let root = document.documentElement;
+
+        // Minimum and Maximum viewport size - must be unitless em values
+        const maxWindowSize = bodyStyles.getPropertyValue('--bp-xlarge') * 16;
+        const minWindowSize = bodyStyles.getPropertyValue('--bp-small') * 16;
+
+        // Get current viewport size
+        const windowWidth = window.innerWidth
+
+        // Scale elements and min/max values
+        const pWidthVar = '--p-wdth';
+        const pMinFontWidth = bodyStyles.getPropertyValue('--p-wdth-min');
+        const pMaxFontWidth = bodyStyles.getPropertyValue('--p-wdth-max');
+        scale(pWidthVar, pMinFontWidth, pMaxFontWidth);
+
+        const pWeightVar = '--p-wght';
+        const pMinFontWeight = bodyStyles.getPropertyValue('--p-wght-min');
+        const pMaxFontWeight = bodyStyles.getPropertyValue('--p-wght-max');
+        scale(pWeightVar, pMinFontWeight, pMaxFontWeight);
+
+        const h1WidthVar = '--h1-wdth';
+        const h1MinFontWidth = bodyStyles.getPropertyValue('--h1-wdth-min');
+        const h1MaxFontWidth = bodyStyles.getPropertyValue('--h1-wdth-max');
+        scale(h1WidthVar, h1MinFontWidth, h1MaxFontWidth);
+
+        const h1WeightVar = '--h1-wght';
+        const h1MinFontWeight = bodyStyles.getPropertyValue('--h1-wght-min');
+        const h1MaxFontWeight = bodyStyles.getPropertyValue('--h1-wght-max');
+        scale(h1WeightVar, h1MinFontWeight, h1MaxFontWeight);
+
+        const h2WidthVar = '--h2-wdth';
+        const h2MinFontWidth = bodyStyles.getPropertyValue('--h2-wdth-min');
+        const h2MaxFontWidth = bodyStyles.getPropertyValue('--h2-wdth-max');
+        scale(h2WidthVar, h2MinFontWidth, h2MaxFontWidth);
+
+        const h2WeightVar = '--h2-wght';
+        const h2MinFontWeight = bodyStyles.getPropertyValue('--h2-wght-min');
+        const h2MaxFontWeight = bodyStyles.getPropertyValue('--h2-wght-max');
+        scale(h2WeightVar, h2MinFontWeight, h2MaxFontWeight);
+
+        function scale(varName, minValue, maxValue) {
+            // Make sure min/max are numbers
+            minValue = minValue * 1;
+            maxValue = maxValue * 1;
+
+            //Scale within a range
+            const percent = (windowWidth - minWindowSize) / (maxWindowSize - minWindowSize);
+            if (maxValue < minValue) {
+                var valueScale = minValue - (percent * (minValue - maxValue));
+            } else {
+                var valueScale = (percent * (maxValue - minValue)) + minValue;
+            }
+
+            // Get the new font width
+            const newValue = windowWidth > maxWindowSize
+                ? maxValue
+                : windowWidth < minWindowSize
+                    ? minValue
+                    : valueScale;
+
+            // Set my CSS Custom Property for width to update.
+            root.style.setProperty(varName, newValue);
+        }
+    }
+
+    window.addEventListener("load", variableResize);
+    window.addEventListener("resize", variableResize);
+
+  function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+    }
+    </script>
+
+</head>
+
+<body>
+    <style>
+        body{
+            margin: 0;
+            padding-right: 30px;
+            line-height: 1.5em;
+        }
+    </style>
+<div class="main-screen">
+    <div id="mySidenav" class="chapters-container">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <ul>
+        <li>afdsfsaddsfdsgdsgdsds</li>
+    </ul>
+    </div>
+    <div id="main" class="content-container">
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span>
+        <p id="demo"></p>
+    </div>
+</div>
+
+</body>
+
+</html>
